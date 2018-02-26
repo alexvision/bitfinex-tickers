@@ -1,4 +1,4 @@
-import { ADD_SUB, ADD_RETRY } from './actions';
+import { ADD_SUB, ADD_SOCKET, ADD_RETRY } from './actions';
 
 const defaultState = {
   channels: {},
@@ -16,6 +16,11 @@ const trades = (state = defaultState, action) => {
           [action.payload.chanId]: action.payload
         },
         data: { ...state.data, [action.payload.chanId]: [] }
+      };
+    case ADD_SOCKET:
+      return {
+        ...state,
+        socket: action.payload
       };
     case ADD_RETRY:
       return {

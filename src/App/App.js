@@ -5,9 +5,12 @@ import Trades from '../Trades/Container';
 
 class App extends Component {
   render() {
+    const { socket } = this.props;
     return (
       <section>
-        <button>BREAK WEBSOCKETS!</button>
+        <button onClick={() => socket.onclose('error', new Error('foo'))}>
+          BREAK WEBSOCKETS!
+        </button>
         <div className="App">
           <OrderBook />
           <Trades />

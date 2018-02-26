@@ -34,7 +34,7 @@ const updateData = (state, payload, toInsert) => {
     // This method doesn't return negative for not found, so we need to ensure
     // the value is actually a match at 0 before removing it
     if (index === 0) {
-      if (existing[index].price === payload.price) {
+      if (get(existing, `[${index}].price`) === payload.price) {
         return existing.slice(1, MAX_DEPTH);
       }
       return existing;

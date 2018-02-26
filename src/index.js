@@ -1,15 +1,15 @@
 // Vendor
-import React from "react";
-import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import { createStore } from "redux";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
 // Internal
-import "./index.css";
-import App from "./App/App";
-import initSocket from "./Sockets/initSocket";
-import reducers from "./reducers";
-import registerServiceWorker from "./registerServiceWorker";
+import './index.css';
+import App from './App/Container';
+import initSocket from './Sockets/initSocket';
+import reducers from './reducers';
+import registerServiceWorker from './registerServiceWorker';
 
 const store = createStore(
   reducers,
@@ -23,6 +23,6 @@ ReactDOM.render(
   <Provider store={store}>
     <App />
   </Provider>,
-  document.getElementById("root")
+  document.getElementById('root')
 );
 registerServiceWorker();

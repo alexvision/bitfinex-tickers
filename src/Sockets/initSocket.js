@@ -1,6 +1,6 @@
 // Internal
 import { addBook, resetBook } from '../OrderBook/actions';
-import { addSubscription } from './actions';
+import { addSubscription, addSocket, incrementRetry } from './actions';
 import { addTrades, resetTrades } from '../Trades/actions';
 import {
   getChannelName,
@@ -13,6 +13,7 @@ const initSocket = ({ dispatch, getState }) => {
   const socket = new WebSocket('wss://api.bitfinex.com/ws/2');
 
   socket.onopen = () => {
+    dispatch(addSocket(socket));
     socket.send(
       JSON.stringify({
         event: 'subscribe',
@@ -41,10 +42,11 @@ const initSocket = ({ dispatch, getState }) => {
         })
       );
     });
-    dispatch(resetBook);
-    dispatch(resetTrades);
+    dispatch(resetBook());
+    dispatch(resetTrades());
     // after 5 tries give up
     if (getRetries(state) < 5) {
+      dispatch(incrementRetry());
       Object.keys(channels).forEach(key => {
         socket.send(
           JSON.stringify({
