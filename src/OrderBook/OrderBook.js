@@ -29,10 +29,10 @@ const OrderBook = ({ orderbook }) => {
         <caption>Order Book: Bid</caption>
         <thead>
           <tr>
-            <td>Count</td>
-            <td>Amount</td>
-            <td>Total</td>
-            <td>Price</td>
+            <td className="OrderBook-header">Count</td>
+            <td className="OrderBook-header">Amount</td>
+            <td className="OrderBook-header">Total</td>
+            <td className="OrderBook-header">Price</td>
           </tr>
         </thead>
         <tbody>{orderbook.bid.map(LeftRow)}</tbody>
@@ -41,10 +41,10 @@ const OrderBook = ({ orderbook }) => {
         <caption>Order Book: Ask</caption>
         <thead>
           <tr>
-            <td>Price</td>
-            <td>Total</td>
-            <td>Amount</td>
-            <td>Count</td>
+            <td className="OrderBook-header">Price</td>
+            <td className="OrderBook-header">Total</td>
+            <td className="OrderBook-header">Amount</td>
+            <td className="OrderBook-header">Count</td>
           </tr>
         </thead>
         <tbody>{orderbook.ask.map(RightRow)}</tbody>

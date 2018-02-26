@@ -23,6 +23,11 @@ const initSocket = ({ dispatch, getState }) => {
       })
     );
   };
+
+  socket.onerror = event => {};
+
+  socket.onclose = event => {};
+
   socket.onmessage = event => {
     const data = JSON.parse(event.data);
     if (data.event) {

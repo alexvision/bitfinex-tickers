@@ -1,9 +1,8 @@
-.OrderBook {
-  display: flex;
+.Trades {
   margin: 5px 15px;
   text-align: right;
 }
 
-.OrderBook-header {
+.Trades-header {
   min-width: 100px;
 }

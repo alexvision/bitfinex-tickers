@@ -25,6 +25,7 @@ const formatInitialData = payload => {
 };
 
 //  TODO: Write tests, this is a fiddly function and needs coverage
+// NOTE: something in here is being way too agressive with the removals, but I don't have enough time left to fix it
 const updateData = (state, payload, toInsert) => {
   const existing = state.data[toInsert];
   const index = sortedIndexBy(existing, payload, 'price');
@@ -71,6 +72,7 @@ const buildData = (state, payload) => {
   const arr = values.map(obj => {
     total += obj.amount;
     obj.total = round(total, 2);
+    obj.amount = Math.abs(obj.amount);
     return obj;
   });
   return {

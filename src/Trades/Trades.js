@@ -1,5 +1,8 @@
 // Vendor
-import React from "react";
+import React from 'react';
+
+// Styles
+import './Trades.css';
 
 // TODO: Filter out duplicates vs adding index
 const Row = ({ id, time, amount, price }, index) => {
@@ -9,8 +12,8 @@ const Row = ({ id, time, amount, price }, index) => {
   return (
     <tr key={`${id}-${index}`}>
       <td>{dateString}</td>
-      <td>{amount}</td>
       <td>{price}</td>
+      <td>{amount}</td>
     </tr>
   );
 };
@@ -20,13 +23,13 @@ class Trades extends React.Component {
     const { trades } = this.props;
     return (
       <section>
-        <table>
+        <table className="Trades">
           <caption>Trades</caption>
           <thead>
             <tr>
-              <td>Time</td>
-              <td>Price</td>
-              <td>Amount</td>
+              <td className="Trades-header">Time</td>
+              <td className="Trades-header">Price</td>
+              <td className="Trades-header">Amount</td>
             </tr>
           </thead>
           <tbody>{trades.map(Row)}</tbody>
