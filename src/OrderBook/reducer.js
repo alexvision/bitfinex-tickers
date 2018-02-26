@@ -1,5 +1,5 @@
 // Vendor
-import { get, sortedIndexBy } from 'lodash';
+import { get, round, sortedIndexBy } from 'lodash';
 // Internal
 import { ADD_BOOK } from './actions';
 
@@ -65,7 +65,14 @@ const buildData = (state, payload) => {
   }
 
   const toInsert = payload.amount > 0 ? 'ask' : 'bid';
-  const arr = updateData(state, payload, toInsert);
+  const values = updateData(state, payload, toInsert);
+  // There are cleaner ways to do this, but did it this way for easy of implementation
+  let total = 0;
+  const arr = values.map(obj => {
+    total += obj.amount;
+    obj.total = round(total, 2);
+    return obj;
+  });
   return {
     ...state.data,
     [toInsert]: arr
