@@ -1,25 +1,25 @@
 // Internal
-import { addBook } from "../OrderBook/actions";
-import { addSubscription } from "./actions";
-import { addTrades } from "../Trades/actions";
-import { getChannelName } from "./selectors";
+import { addBook } from '../OrderBook/actions';
+import { addSubscription } from './actions';
+import { addTrades } from '../Trades/actions';
+import { getChannelName } from './selectors';
 
 const initSocket = ({ dispatch, getState }) => {
-  const socket = new WebSocket("wss://api.bitfinex.com/ws/2");
+  const socket = new WebSocket('wss://api.bitfinex.com/ws/2');
 
   socket.onopen = () => {
     socket.send(
       JSON.stringify({
-        event: "subscribe",
-        channel: "book",
-        symbol: "ETHUSD"
+        event: 'subscribe',
+        channel: 'book',
+        symbol: 'ETHUSD'
       })
     );
     socket.send(
       JSON.stringify({
-        event: "subscribe",
-        channel: "trades",
-        symbol: "tBTCUSD"
+        event: 'subscribe',
+        channel: 'trades',
+        symbol: 'tETHUSD'
       })
     );
   };
@@ -27,7 +27,7 @@ const initSocket = ({ dispatch, getState }) => {
     const data = JSON.parse(event.data);
     if (data.event) {
       switch (data.event) {
-        case "subscribed":
+        case 'subscribed':
           return dispatch(addSubscription(data));
         default:
           break;
@@ -38,13 +38,13 @@ const initSocket = ({ dispatch, getState }) => {
     const channel = getChannelName(state, id);
 
     // TODO: handle the heartbeat properly
-    if (payload[0] === "hb") {
+    if (payload[0] === 'hb') {
       return;
     }
     switch (channel) {
-      case "trades":
+      case 'trades':
         return dispatch(addTrades(payload));
-      case "book":
+      case 'book':
         return dispatch(addBook(payload));
       default:
         break;
