@@ -1,9 +1,9 @@
 // Vendor
 import { get, round, sortedIndexBy } from 'lodash';
 // Internal
-import { ADD_BOOK } from './actions';
+import { ADD_BOOK, RESET_BOOK } from './actions';
 
-const MAX_DEPTH = 50;
+const MAX_DEPTH = 100;
 // TODO: come back and look to see if we can store this in a heap or a better datastructure
 const defaultState = {
   data: { ask: [], bid: [] }
@@ -86,6 +86,8 @@ const orderbook = (state = defaultState, action) => {
     case ADD_BOOK:
       const data = buildData(state, action.payload);
       return { ...state, data };
+    case RESET_BOOK:
+      return defaultState;
     default:
       return state;
   }

@@ -1,19 +1,26 @@
-import { ADD_SUB } from "./actions";
+import { ADD_SUB, ADD_RETRY } from './actions';
 
 const defaultState = {
   channels: {},
-  data: {}
+  data: {},
+  retries: 0
 };
 
 const trades = (state = defaultState, action) => {
   switch (action.type) {
     case ADD_SUB:
       return {
+        ...state,
         channels: {
           ...state.channels,
           [action.payload.chanId]: action.payload
         },
         data: { ...state.data, [action.payload.chanId]: [] }
+      };
+    case ADD_RETRY:
+      return {
+        ...state,
+        retries: state.retries + 1
       };
     default:
       return state;

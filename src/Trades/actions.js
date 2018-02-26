@@ -1,4 +1,5 @@
 const ADD_TRADES = 'ADD_TRADES';
+const RESET_TRADES = 'RESET_TRADES';
 
 const transformPayload = payload => {
   if (payload.length && Array.isArray(payload[0])) {
@@ -13,4 +14,6 @@ const addTrades = payload => ({
   payload: transformPayload(payload)
 });
 
-export { ADD_TRADES, addTrades };
+const resetTrades = () => ({ type: RESET_TRADES });
+
+export { ADD_TRADES, RESET_TRADES, addTrades, resetTrades };

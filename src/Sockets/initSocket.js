@@ -1,8 +1,13 @@
 // Internal
-import { addBook } from '../OrderBook/actions';
+import { addBook, resetBook } from '../OrderBook/actions';
 import { addSubscription } from './actions';
-import { addTrades } from '../Trades/actions';
-import { getChannelName } from './selectors';
+import { addTrades, resetTrades } from '../Trades/actions';
+import {
+  getChannelName,
+  getChannels,
+  getChannelSymbol,
+  getRetries
+} from './selectors';
 
 const initSocket = ({ dispatch, getState }) => {
   const socket = new WebSocket('wss://api.bitfinex.com/ws/2');
@@ -24,9 +29,41 @@ const initSocket = ({ dispatch, getState }) => {
     );
   };
 
-  socket.onerror = event => {};
+  const handleClose = event => {
+    const state = getState();
+    const channels = getChannels(state);
+    Object.keys(channels).forEach(key => {
+      socket.send(
+        JSON.stringify({
+          event: 'unsubscribe',
+          channel: getChannelName(state, key),
+          symbol: getChannelSymbol(state, key)
+        })
+      );
+    });
+    dispatch(resetBook);
+    dispatch(resetTrades);
+    // after 5 tries give up
+    if (getRetries(state) < 5) {
+      Object.keys(channels).forEach(key => {
+        socket.send(
+          JSON.stringify({
+            event: 'subscribe',
+            channel: getChannelName(state, key),
+            symbol: getChannelSymbol(state, key)
+          })
+        );
+      });
+    }
+  };
 
-  socket.onclose = event => {};
+  socket.onerror = event => {
+    handleClose(event);
+  };
+
+  socket.onclose = event => {
+    handleClose(event);
+  };
 
   socket.onmessage = event => {
     const data = JSON.parse(event.data);
